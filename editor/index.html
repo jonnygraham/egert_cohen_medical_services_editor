@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+  <script src="http://dylanfprice.github.io/angular-gm/1.0.0/angular-gm.min.js"></script>
+  <script src="js/editor.js"></script>
+  <link rel="stylesheet" href="css/editor.css" />
+<meta charset=utf-8 />
+<title>Edit Medical Centres</title>
+</head>
+<body>
+  <h1>Edit Medical Centres</h1>
+
+  <div  id="centresList">
+  <input type="file" filelist-bind on-load="fileLoaded"/>
+  <a download="medicalCentersData.json" ng-href="{{ url }}">Download updated file</a>
+    <div><button ng-click="addNew()" ng-disabled="medicalCentre">Add new medical centre</button></div>
+  <table>
+    <tr><th>Type</th><th>Area</th><th>Name</th><th>Address</th></tr>
+    <tr ng-repeat="c in medicalCentres | orderBy:['centreType','area','name','address']">
+      <td>{{c.centreType}}</td>
+      <td>{{c.area}}</td>
+      <td>{{c.name}}</td>
+      <td>{{c.address}}</td>
+      <td><button ng-click="edit(c.id)" ng-disabled="medicalCentre">Edit</button></td>
+      <td><button ng-click="del(c.id)"  ng-disabled="medicalCentre">Delete</button></td>
+    </tr>
+  </table>
+  <button ng-click="addNew()" ng-disabled="medicalCentre">Add new medical centre</button>
+  </div>
+
+  
+  <div id="editCentre" ng-show="medicalCentre">
+    <h2>Add/Edit Medical Centre</h2>
+    
+    <form>
+
+    <button ng-click="save()">Save</button>
+    <button ng-click="cancel()">Cancel</button>
+  <ul>
+<!--<select ng-model="centreTypeChoice"  ng-options="c.centreType for c in medicalCentres"  ng-init="centreTypeChoice.id='Clinics'" ng-required>
+        <option value="">-- choose type --</option>
+      </select>--> 
+   <li><label>Type</label><input type="text" ng-model="medicalCentre.centreType"/></li>
+    <li><label>Area</label><input type="text" ng-model="medicalCentre.area"/></li>
+    <li><label>Name</label><input type="text" ng-model="medicalCentre.name"/></li>
+      <li><label>Address</label><input type="text" ng-model="medicalCentre.address"/></li>
+    <li><label>Opening Hours</label>
+      <ol>
+        <li ng-repeat="h in medicalCentre.openingHours track by $index">
+          <input type="text" ng-model="medicalCentre.openingHours[$index]"/><button ng-click="removeOpeningHours($index)" >Delete</button></li>
+        <li><input type="text" ng-model="hour"/><button ng-click="addOpeningHours(hour)">Add</button></li>
+      </ol>
+    </li>
+    <li><label>Phone numbers</label>
+      <table id="phoneNumbersTable">
+
+        <tr><th>Type</th><th>Number</th><th>Extension</th></tr>
+      <tr ng-repeat="phone in medicalCentre.phoneNumbers">
+        <td><input type="text" ng-model="phone.phoneType"/></td>
+        <td><input type="text" ng-model="phone.number"/></td>
+        <td><input type="text" ng-model="phone.extension"/></td>
+        <td><button ng-click="removePhoneNumber($index)">Delete</button></td>
+        </tr>
+        <tr>
+       <td><input type="text" ng-model="phoneNum.phoneType"/></td>
+        <td><input type="text" ng-model="phoneNum.number"/></td>
+        <td><input type="text" ng-model="phoneNum.extension"/></td>
+           <td><button ng-click="addPhoneNumber(phoneNum)">Add</td>
+        </tr>
+      </table>
+    </li>
+    <li><label>Location</label><button ng-click="lookupAddress(medicalCentre.address)">Lookup address</button>
+      <ul>
+        <li><label>Latitude</label><input type="text" ng-model="medicalCentre.location.lat" ng-change="updateMapCenter(medicalCentre.location.lat,medicalCentre.location.lon)"/></li>
+        <li><label>Longitude</label><input type="text" ng-model="medicalCentre.location.lon" ng-change="updateMapCenter(medicalCentre.location.lat,medicalCentre.location.lon)"/></li>
+      </ul>
+    </li>
+    <li>Shift-click on map to update the location <button ng-click="updateMapCenter(medicalCentre.location.lat,medicalCentre.location.lon)">Centre map on location</button></li>
+    </ul>
+    <br/>
+        <gm-map gm-map-id="'myMap'" gm-center="mapCenter" gm-zoom="mapZoom" gm-bounds="bounds" gm-map-type-id="mapTypeId" style="width:100%;height:200px;"
+      gm-on-click="mapClicked(map, event)">
+
+          <!--<gm-markers gm-objects="medicalCentres"
+                      gm-id="object.id"
+          gm-position="{lat: object.location.lat, lng: object.location.lon}"
+                      gm-marker-options="x"
+                      gm-on-click="edit(object.id)">
+          </gm-markers>-->
+<gm-markers gm-objects="mapMarker"
+                      gm-id="object.id"
+          gm-position="{lat: object.location.lat, lng: object.location.lon}"
+                      gm-marker-options="x"
+                      gm-on-click="selectVolcano(object, marker)">
+          </gm-markers>
+          
+        </gm-map>
+
+    <button ng-click="save()">Save</button>
+    <button ng-click="cancel()">Cancel</button>
+      </form>
+
+
+  </div>
+
+  <!--<div>All Centre Types
+  <ul ng-repeat="typ in centreTypes">
+    <li>{{typ}}</li>
+  </ul>
+    </div>
+    <div>All Areas
+  <ul ng-repeat="area in areas">
+    <li>{{area}}</li>
+  </ul>
+    </div>-->
+</body>
+</html>

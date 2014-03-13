@@ -1,0 +1,53 @@
+
+input {
+  width:300px;
+}
+label {
+  width:100px;
+  display:inline-block;
+
+}
+label:after {
+  content:':'
+}
+
+#editCentre {
+    background: #DDDDFF;
+    position: absolute;
+    top: 56px;
+    bottom: 0;
+    left:50%;
+        float:left;
+    overflow: scroll;
+    width:50%;
+}
+#centresList {
+    position: absolute;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #EEEEFF;
+    overflow: scroll;
+    float:left;
+    width:50%;
+}
+
+
+#centresList table {
+  padding:0px
+}
+#centresList tr:nth-child(2n) {
+  background-color:#DDDDFF
+}
+#centresList tr:first-child {
+  background-color:#B0B0FF
+}
+
+#phoneNumbersTable td {
+  width:50px;
+}
+#phoneNumbersTable input {
+  width:85px;
+}
+
