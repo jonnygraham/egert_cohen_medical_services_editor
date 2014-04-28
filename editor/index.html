@@ -17,13 +17,14 @@
   <a download="medicalCentersData.json" ng-href="{{ url }}">Download updated file</a>
     <div><button ng-click="addNew()" ng-disabled="medicalCentre">Add new medical centre</button></div>
   <table>
-    <tr><th>Type</th><th>Area</th><th>Name</th><th>Address</th></tr>
+    <tr><th>Type</th><th>Area</th><th>Name</th><th>Address</th><th>Has location</th></tr>
     <tr ng-repeat="c in medicalCentres | orderBy:['centreType','area','name','address']">
       <td>{{c.centreType}}</td>
       <td>{{c.area}}</td>
       <td>{{c.name}}</td>
       <td>{{c.address}}</td>
-      <td><button ng-click="edit(c.id)" ng-disabled="medicalCentre">Edit</button></td>
+	  <td>{{hasLocation(c.location) ? '\u2713' : '\u2718'}}</td>
+      <td><button ng-click="edit(c.id)" >Edit</button></td>
       <td><button ng-click="del(c.id)"  ng-disabled="medicalCentre">Delete</button></td>
     </tr>
   </table>

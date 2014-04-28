@@ -59,8 +59,17 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.hour = null;
   };
 
+  $scope.hasLocation = function (loc) {
+  console.log("loc check",loc);
+    return !(loc.lat === null || loc.lon === null || loc.lat === "" || loc.lon === "");
+  }
   $scope.medicalCentre = undefined;
   $scope.edit = function(id) {
+    if ($scope.medicalCentre !== undefined) {
+		var ok = confirm("You are currently editting. Do you want to discard changes?");
+		if (ok) $scope.cancel();
+		else return;
+	}
     $scope.medicalCentre = angular.copy($scope.medicalCentres.filter(function(c) {
       return c.id == id;
     })[0]);
