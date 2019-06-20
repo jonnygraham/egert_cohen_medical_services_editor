@@ -136,12 +136,15 @@ app.controller('myCtrl', function($scope, $http) {
   };
   $scope.updateMapCenter = function(lat, lng) {
     google.maps.event.trigger(myMap, 'resize');
-    $scope.mapCenter = new google.maps.LatLng(lat, lng);
+    $scope.mapCenter = {
+      "lat":parseFloat(lat),
+      "lng":parseFloat(lng)
+    };
     $scope.mapMarker = [{
     "id":"onlyOne",
     "location":{
-      "lat":lat,
-      "lon":lng
+      "lat":parseFloat(lat),
+      "lon":parseFloat(lng)
     }
   }
     ];
